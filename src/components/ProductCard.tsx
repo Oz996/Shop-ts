@@ -8,7 +8,9 @@ import {
   CardTitle,
 } from "./ui/card";
 import { FaStar } from "react-icons/fa";
+import { RiShoppingBasket2Fill } from "react-icons/ri";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const ProductCard = ({ product }) => {
   const substring = () => {
@@ -33,16 +35,20 @@ const ProductCard = ({ product }) => {
         ></Image>
       </CardContent>
       <CardTitle>{productTitle}</CardTitle>
-      <CardContent className="flex justify-between gap-1 p-0 my-8">
+      <CardContent className="flex justify-between p-0 my-8">
         <p className="font-semibold">€{product?.price}</p>
-        <p className="flex items-center">
-          <FaStar className="text-orange-300" size={17} />
+        <p className="flex items-center text-sm gap-1">
+          <FaStar className="text-orange-300" size={14} />
           {product?.rating?.rate}
         </p>
       </CardContent>
       <CardFooter className="justify-between p-0">
-        <Button>Add to Cart</Button>
-        <Button>More Info</Button>
+        <Button className="flex gap-1 bg-slate-600">
+          <RiShoppingBasket2Fill size={17}/> Add to Cart
+        </Button>
+        <Button className="bg-slate-600">
+          <Link href={`/products/${product?.id}`}>More Info</Link>
+        </Button>
       </CardFooter>
     </Card>
   );
