@@ -11,8 +11,11 @@ import { FaStar } from "react-icons/fa";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { Product } from "@/types";
+import AddButton from "./AddButton";
+import { useCart } from "@/hooks/useCart";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product }: Product) => {
   const substring = () => {
     const title = product?.title;
     const longText = product?.title.length > 60;
@@ -21,34 +24,39 @@ const ProductCard = ({ product }) => {
     }
     return title;
   };
-
+  
   const productTitle = substring();
   return (
-    <Card className="grid grid-rows-1 p-10">
-      <CardContent className="flex justify-center">
-        <Image
-          className="self-center"
-          src={product?.image}
-          width={120}
-          height={120}
-          alt="Picture of product"
-        ></Image>
-      </CardContent>
-      <CardTitle>{productTitle}</CardTitle>
-      <CardContent className="flex justify-between p-0 my-8">
-        <p className="font-semibold">€{product?.price}</p>
+    <Card className="grid grid-rows-1 p-10  hover:scale-[101%] duration-200">
+      <div className="flex justify-center items-center">
+        <Link href={`/products/${product?.id}`}>
+          <CardContent className="flex justify-center">
+            <Image
+              className="self-center"
+              src={product?.image}
+              width={120}
+              height={120}
+              alt="Picture of product"
+            ></Image>
+          </CardContent>
+        </Link>
+      </div>
+      <Link href={`/products/${product?.id}`}>
+        <CardTitle>{productTitle}</CardTitle>
+      </Link>
+      <CardContent className="flex flex-col justify-center gap-2 items-center p-0 my-8">
         <p className="flex items-center text-sm gap-1">
           <FaStar className="text-orange-300" size={14} />
-          {product?.rating?.rate}
+          <FaStar className="text-orange-300" size={14} />
+          <FaStar className="text-orange-300" size={14} />
+          <FaStar className="text-orange-300" size={14} />
+          <FaStar className="text-orange-300" size={14} />
+          {product?.rating?.rate} ({product?.rating?.count})
         </p>
+        <p className="text-lg font-semibold">€{product?.price}</p>
       </CardContent>
-      <CardFooter className="justify-between p-0">
-        <Button className="flex gap-1 bg-slate-600">
-          <RiShoppingBasket2Fill size={17}/> Add to Cart
-        </Button>
-        <Button className="bg-slate-600">
-          <Link href={`/products/${product?.id}`}>More Info</Link>
-        </Button>
+      <CardFooter className="justify-between p-0 border-t-2">
+        <AddButton product={product} />
       </CardFooter>
     </Card>
   );

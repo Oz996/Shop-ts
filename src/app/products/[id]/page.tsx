@@ -8,7 +8,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   return (
     <section className="pt-20 container mx-auto">
       <div className="grid grid-cols-2 gap-60 pt-10">
-        <div className="">
+        <div className="min-h-[30rem]">
           <Image
             className="self-center"
             src={data?.image}
@@ -18,11 +18,13 @@ export default async function Page({ params }: { params: { id: number } }) {
           ></Image>
         </div>
         <div className="max-w-[30rem] grid">
-          <h2 className="text-3xl font-bold">{data?.title}</h2>
-          <p>{data?.description}</p>
-          <p className="text-xl font-semibold">€{data?.price}</p>
-          <div>
-            <Button className="bg-slate-600">Add to Cart</Button>
+          <div className="flex flex-col gap-5">
+            <h2 className="text-3xl font-bold">{data?.title}</h2>
+            <p>{data?.description}</p>
+          </div>
+          <div className="flex flex-col gap-5">
+            <p className="text-2xl font-semibold">€{data?.price}</p>
+            <Button className="bg-slate-600 w-32">Add to Cart</Button>
           </div>
         </div>
       </div>

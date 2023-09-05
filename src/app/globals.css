@@ -65,7 +65,15 @@
     --ring: 0 0% 83.1%;
   }
 }
- 
+
+::-webkit-scrollbar{
+  width: .6rem;
+}
+::-webkit-scrollbar-thumb{
+  background-color: rgb(71 85 105);
+  border-radius: .3rem;
+}
+
 @layer base {
   * {
     @apply border-border;

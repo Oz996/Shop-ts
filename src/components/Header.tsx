@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { RiShoppingBasket2Fill } from "react-icons/ri";
+import CartIcon from "./CartIcon";
 
 const Header = () => {
   return (
@@ -17,7 +17,7 @@ const Header = () => {
             <li>
               <Link href="/products">Products</Link>
             </li>
-            <RiShoppingBasket2Fill className="cursor-pointer" size={22} />
+            <CartIcon />
           </ul>
         </nav>
       </div>
