@@ -8,14 +8,10 @@ import {
   CardTitle,
 } from "./ui/card";
 import { FaStar } from "react-icons/fa";
-import { RiShoppingBasket2Fill } from "react-icons/ri";
-import { Button } from "./ui/button";
 import Link from "next/link";
-import { Product } from "@/types";
 import AddButton from "./AddButton";
-import { useCart } from "@/hooks/useCart";
 
-const ProductCard = ({ product }: Product) => {
+const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const substring = () => {
     const title = product?.title;
     const longText = product?.title.length > 60;
@@ -24,7 +20,7 @@ const ProductCard = ({ product }: Product) => {
     }
     return title;
   };
-  
+
   const productTitle = substring();
   return (
     <Card className="grid grid-rows-1 p-10  hover:scale-[101%] duration-200">

@@ -1,8 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types";
 import Image from "next/image";
+import { ReactElement } from "react";
 
-export default async function Page({ params }: { params: { id: number } }) {
+export default async function Page({
+  params,
+}: {
+  params: { id: number };
+}): Promise<ReactElement> {
   const res = await fetch(`https://fakestoreapi.com/products/${params.id}`);
   const data: Product = await res.json();
   return (

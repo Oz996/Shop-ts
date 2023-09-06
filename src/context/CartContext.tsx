@@ -1,19 +1,20 @@
 "use client";
+import { Cart, CartAction } from "@/types";
 import { createContext, useReducer } from "react";
 
-export const CartContext = createContext();
-
-const initialState = {
+const initialState: Cart = {
   cart: [],
   quantity: 0,
   total: 0,
 };
 
-const saveCartToLocalStorage = (cart) => {
+export const CartContext = createContext(initialState);
+
+const saveCartToLocalStorage = (cart: Cart) => {
   localStorage.setItem("cart", JSON.stringify(cart));
 };
 
-const cartReducer = (state, action) => {
+const cartReducer = (state: Cart, action: CartAction): Cart => {
   switch (action.type) {
     case "add_item":
       const existingProduct = state.cart.findIndex(
@@ -23,14 +24,14 @@ const cartReducer = (state, action) => {
         const updatedCart = [...state.cart];
         updatedCart[existingProduct].quantity++;
         const updatedState = { ...state, cart: updatedCart };
-        saveCartToLocalStorage(updatedState.cart);
+        saveCartToLocalStorage(updatedState);
         return { ...state, cart: updatedCart };
       } else {
         const updatedState = {
           ...state,
           cart: [...state.cart, { ...action.payload, quantity: 1 }],
         };
-        saveCartToLocalStorage(updatedState.cart);
+        saveCartToLocalStorage(updatedState);
         return updatedState;
       }
     case "increment_item":
@@ -41,7 +42,7 @@ const cartReducer = (state, action) => {
         const updatedCart = [...state.cart];
         updatedCart[incrementIndex].quantity++;
         const updatedState = { ...state, cart: updatedCart };
-        saveCartToLocalStorage(updatedState.cart);
+        saveCartToLocalStorage(updatedState);
         return updatedState;
       } else {
         return state;
@@ -55,7 +56,7 @@ const cartReducer = (state, action) => {
         const updatedCart = [...state.cart];
         updatedCart[decrementIndex].quantity--;
         const updatedState = { ...state, cart: updatedCart };
-        saveCartToLocalStorage(updatedState.cart);
+        saveCartToLocalStorage(updatedState);
         return updatedState;
       } else {
         return state;
@@ -71,7 +72,7 @@ const cartReducer = (state, action) => {
   }
 };
 
-export function CartProvider({ children }) {
+export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, dispatch] = useReducer(cartReducer, initialState);
 
   const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");

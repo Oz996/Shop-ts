@@ -12,13 +12,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Product } from "@/types";
+import GET from "../api/products/route";
+import { GetProducts } from "@/types";
 
 export default async function Page() {
-  const res = await fetch("https://fakestoreapi.com/products");
-  // const data: Product[] = await res.json();
-  const data = (await res.json()) as Product[];
-
+  const data = await GET();
 
   return (
     <>
