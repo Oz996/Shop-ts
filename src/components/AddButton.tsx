@@ -10,7 +10,7 @@ const AddButton = ({ product }) => {
   return (
     <Button
       className="flex gap-1 bg-slate-600 w-full"
-      onClick={() => dispatch({ type: "add_item", payload: product })}
+      onClick={() => dispatch({ type: "add_product", payload: product })}
     >
       <RiShoppingBasket2Fill size={17} /> Add to Cart
     </Button>

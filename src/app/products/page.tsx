@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/select";
 import { AiOutlineSearch } from "react-icons/ai";
 import GET from "../api/products/route";
-import { GetProducts } from "@/types";
 
 export default async function Page() {
   const data = await GET();

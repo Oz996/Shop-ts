@@ -20,8 +20,6 @@ export interface ProductProps {
 
 export interface Cart {
   cart: Product[];
-  quantity: number;
-  total: number;
 }
 
 export interface CartAction {

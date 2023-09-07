@@ -1,82 +1,79 @@
 "use client";
+
 import { Cart, CartAction } from "@/types";
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 const initialState: Cart = {
   cart: [],
-  quantity: 0,
-  total: 0,
 };
 
-export const CartContext = createContext(initialState);
-
-const saveCartToLocalStorage = (cart: Cart) => {
-  localStorage.setItem("cart", JSON.stringify(cart));
-};
-
-const cartReducer = (state: Cart, action: CartAction): Cart => {
+const cartReducer = (state: Cart, action: CartAction) => {
   switch (action.type) {
-    case "add_item":
-      const existingProduct = state.cart.findIndex(
-        (item) => item.id === action.payload.id
+    case "add_product":
+      const existingProduct = state.cart.find(
+        (product) => product.id === action.payload.id
       );
-      if (existingProduct !== -1) {
-        const updatedCart = [...state.cart];
-        updatedCart[existingProduct].quantity++;
-        const updatedState = { ...state, cart: updatedCart };
-        saveCartToLocalStorage(updatedState);
-        return { ...state, cart: updatedCart };
+      if (existingProduct) {
+        existingProduct.quantity++;
+        const updatedState = { ...state };
+        localStorage.setItem("cart", JSON.stringify(updatedState));
+        return updatedState;
       } else {
-        const updatedState = {
+        const newProduct = {
           ...state,
           cart: [...state.cart, { ...action.payload, quantity: 1 }],
         };
-        saveCartToLocalStorage(updatedState);
-        return updatedState;
+        localStorage.setItem("cart", JSON.stringify(newProduct));
+        return newProduct;
       }
-    case "increment_item":
-      const incrementIndex = state.cart.findIndex(
-        (item) => item.id === action.payload.id
+    case "increment":
+      const increment = state.cart.find(
+        (product) => product.id === action.payload.id
       );
-      if (incrementIndex !== -1) {
-        const updatedCart = [...state.cart];
-        updatedCart[incrementIndex].quantity++;
-        const updatedState = { ...state, cart: updatedCart };
-        saveCartToLocalStorage(updatedState);
-        return updatedState;
-      } else {
-        return state;
+      if (increment) {
+        increment.quantity++;
+        return { ...state };
       }
-
-    case "decrement_item":
-      const decrementIndex = state.cart.findIndex(
-        (item) => item.id === action.payload.id
+      return state;
+    case "decrement":
+      const decrement = state.cart.find(
+        (product) => product.id === action.payload.id
       );
-      if (decrementIndex !== -1 && state.cart[decrementIndex].quantity > 1) {
-        const updatedCart = [...state.cart];
-        updatedCart[decrementIndex].quantity--;
-        const updatedState = { ...state, cart: updatedCart };
-        saveCartToLocalStorage(updatedState);
-        return updatedState;
-      } else {
-        return state;
+      if (decrement?.quantity === 1) {
+        const removeProduct = state.cart.filter(
+          (product) => product.id !== action.payload.id
+        );
+        return { ...state, cart: removeProduct };
+      } else if (decrement) {
+        decrement.quantity--;
+        return { ...state };
       }
-
+      return state;
+    case "remove_product":
+      const product = state.cart.find(
+        (product) => product.id === action.payload.id
+      );
+      if (product) {
+        const cart = state.cart.filter(
+          (product) => product.id !== action.payload.id
+        );
+        const updatedCart = { ...state, cart: cart };
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        return updatedCart;
+      }
+      return state;
     case "empty_cart":
-      state.cart = [];
       localStorage.removeItem("cart");
       return { ...state, cart: [] };
-
     default:
       return state;
   }
 };
 
+export const CartContext = createContext(initialState);
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, dispatch] = useReducer(cartReducer, initialState);
-
-  const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-  initialState.cart = savedCart;
 
   return (
     <CartContext.Provider value={{ cart, dispatch }}>

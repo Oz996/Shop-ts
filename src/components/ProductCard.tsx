@@ -10,6 +10,7 @@ import {
 import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import AddButton from "./AddButton";
+import { ProductProps } from "@/types";
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const substring = () => {
