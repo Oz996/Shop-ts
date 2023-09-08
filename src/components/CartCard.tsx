@@ -46,6 +46,9 @@ const CartCard = ({ item }) => {
               <BiSolidTrashAlt
                 size={20}
                 className="hover:text-red-600 duration-200"
+                onClick={() =>
+                  dispatch({ type: "remove_product", payload: item })
+                }
               />
             </Button>
           </div>

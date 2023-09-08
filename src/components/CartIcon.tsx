@@ -18,7 +18,7 @@ import { Button } from "./ui/button";
 
 const CartIcon = () => {
   const [setshowSheet, setSetshowSheet] = useState(false);
-  const { cart } = useCart();
+  const { cart, dispatch } = useCart();
   console.log(cart);
 
   return (
@@ -31,24 +31,38 @@ const CartIcon = () => {
             onClick={() => setSetshowSheet((prev) => !prev)}
           />
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent className="overflow-y-scroll">
           <SheetHeader>
-            <SheetTitle>Cart({cart.cart.length})</SheetTitle>
+            <SheetTitle>
+              {cart.cart.length > 0 && <p>Cart({cart.cart.length})</p>}
+            </SheetTitle>
           </SheetHeader>
           <div>
-            {cart.cart.map((item) => (
-              <CartCard key={item.id} item={item} />
-            ))}
+            {cart.cart.length == 0 ? (
+              <div className="flex flex-col justify-center items-center gap-3 pt-20">
+                <RiShoppingBasket2Fill size={35} />
+                <p className="text-xl font-semibold">Cart is empty</p>
+              </div>
+            ) : (
+              cart.cart.map((item) => <CartCard key={item.id} item={item} />)
+            )}
           </div>
-          <div className="absolute bottom-10">
+          <div className="fixed bottom-10">
             <Button>Proceed to Checkout</Button>
-            <Button variant="destructive">Clear Cart</Button>
+            <Button
+              onClick={() => dispatch({ type: "empty_cart" })}
+              variant="destructive"
+            >
+              Clear Cart
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
-      <div className="absolute right-[17.5rem] top-3 text-sm bg-black h-5 w-5 rounded-full flex justify-center items-center">
-        <p>{cart.cart.length}</p>
-      </div>
+      {cart.cart.length > 0 && (
+        <div className="absolute right-[17.5rem] top-3 text-sm bg-black h-5 w-5 rounded-full flex justify-center items-center">
+          <p>{cart.cart.length}</p>
+        </div>
+      )}
     </>
   );
 };
