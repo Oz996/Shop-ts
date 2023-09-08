@@ -12,33 +12,34 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import { useCart } from "@/hooks/useCart";
+import { ProductProps } from "@/types/product";
 
-const CartCard = ({ item }) => {
+const CartCard: React.FC<ProductProps> = ({ product }) => {
   const { dispatch } = useCart();
   return (
     <Card className="border-t-0 border-x-0">
       <div className="flex items-center">
         <CardHeader>
           <Image
-            src={item.image}
+            src={product.image}
             height={70}
             width={70}
             alt="Image of product in cart"
           ></Image>
-          <p className="text-sm">{item.title}</p>
+          <p className="text-sm">{product.title}</p>
         </CardHeader>
         <CardContent>
           <div className="flex">
             <Button
               variant="ghost"
-              onClick={() => dispatch({ type: "decrement", payload: item })}
+              onClick={() => dispatch({ type: "decrement", payload: product })}
             >
               -
             </Button>
-            <p className="mx-2 self-center">{item.quantity}</p>
+            <p className="mx-2 self-center">{product.quantity}</p>
             <Button
               variant="ghost"
-              onClick={() => dispatch({ type: "increment", payload: item })}
+              onClick={() => dispatch({ type: "increment", payload: product })}
             >
               +
             </Button>
@@ -47,7 +48,7 @@ const CartCard = ({ item }) => {
                 size={20}
                 className="hover:text-red-600 duration-200"
                 onClick={() =>
-                  dispatch({ type: "remove_product", payload: item })
+                  dispatch({ type: "remove_product", payload: product })
                 }
               />
             </Button>

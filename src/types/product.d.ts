@@ -17,12 +17,3 @@ export interface Product {
 export interface ProductProps {
   product: Product;
 }
-
-export interface Cart {
-  cart: Product[];
-}
-
-export interface CartAction {
-  type: string;
-  payload?: any;
-}

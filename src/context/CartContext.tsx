@@ -1,13 +1,14 @@
 "use client";
 
-import { Cart, CartAction } from "@/types";
+import { Cart, CartAction } from "@/types/cart";
+import { Product } from "@/types/product";
 import { createContext, useEffect, useReducer } from "react";
 
 const initialState: Cart = {
   cart: [],
 };
 
-const cartReducer = (state: Cart, action: CartAction) => {
+const cartReducer = (state: Cart, action: CartAction): Cart => {
   switch (action.type) {
     case "add_product":
       const existingProduct = state.cart.find(
@@ -16,14 +17,13 @@ const cartReducer = (state: Cart, action: CartAction) => {
       if (existingProduct) {
         existingProduct.quantity++;
         const updatedState = { ...state };
-        localStorage.setItem("cart", JSON.stringify(updatedState));
         return updatedState;
       } else {
         const newProduct = {
           ...state,
           cart: [...state.cart, { ...action.payload, quantity: 1 }],
         };
-        localStorage.setItem("cart", JSON.stringify(newProduct));
+
         return newProduct;
       }
     case "increment":
@@ -58,23 +58,40 @@ const cartReducer = (state: Cart, action: CartAction) => {
           (product) => product.id !== action.payload.id
         );
         const updatedCart = { ...state, cart: cart };
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
         return updatedCart;
       }
       return state;
     case "empty_cart":
-      localStorage.removeItem("cart");
       return { ...state, cart: [] };
+    case "set_cart":
+      return { ...state, cart: action.payload };
     default:
       return state;
   }
 };
 
-export const CartContext = createContext(initialState);
+export const CartContext = createContext<{
+  state: Cart;
+  dispatch: React.Dispatch<CartAction>;
+}>({
+  state: initialState,
+  dispatch: () => {},
+});
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, dispatch] = useReducer(cartReducer, initialState);
 
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      dispatch({ type: "set_cart", payload: parsedCart });
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart.cart));
+  }, [cart]);
   return (
     <CartContext.Provider value={{ cart, dispatch }}>
       {children}

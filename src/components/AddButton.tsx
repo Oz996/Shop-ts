@@ -3,10 +3,11 @@ import React from "react";
 import { Button } from "./ui/button";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
 import { useCart } from "@/hooks/useCart";
+import { ProductProps } from "@/types/product";
 
-const AddButton = ({ product }) => {
+const AddButton: React.FC<ProductProps> = ({ product }) => {
   const { cart, dispatch } = useCart();
-  console.log(cart.cart);
+  console.log(cart);
   return (
     <Button
       className="flex gap-1 bg-slate-600 w-full"

@@ -1,4 +1,4 @@
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 
 // We can declare a variable, or use type assertion as shown in the examples below or we can declare
 // that we are expecting to return a promise which expects data of the GetProducts interface

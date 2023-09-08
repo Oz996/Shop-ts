@@ -1,7 +1,6 @@
 "use client";
 
 import { useCart } from "@/hooks/useCart";
-import { useState } from "react";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
 import {
   Sheet,
@@ -15,9 +14,9 @@ import {
 } from "./ui/sheet";
 import CartCard from "./CartCard";
 import { Button } from "./ui/button";
+import { Product } from "@/types/product";
 
 const CartIcon = () => {
-  const [setshowSheet, setSetshowSheet] = useState(false);
   const { cart, dispatch } = useCart();
   console.log(cart);
 
@@ -25,11 +24,7 @@ const CartIcon = () => {
     <>
       <Sheet>
         <SheetTrigger>
-          <RiShoppingBasket2Fill
-            className="cursor-pointer"
-            size={22}
-            onClick={() => setSetshowSheet((prev) => !prev)}
-          />
+          <RiShoppingBasket2Fill className="cursor-pointer" size={22} />
         </SheetTrigger>
         <SheetContent className="overflow-y-scroll">
           <SheetHeader>
@@ -44,7 +39,9 @@ const CartIcon = () => {
                 <p className="text-xl font-semibold">Cart is empty</p>
               </div>
             ) : (
-              cart.cart.map((item) => <CartCard key={item.id} item={item} />)
+              cart.cart.map((product: Product) => (
+                <CartCard key={product.id} product={product} />
+              ))
             )}
           </div>
           <div className="fixed bottom-10">

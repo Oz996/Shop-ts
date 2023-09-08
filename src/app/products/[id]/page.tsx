@@ -1,6 +1,6 @@
 import AddButton from "@/components/AddButton";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/types";
+import { Product } from "@/types/product";
 import Image from "next/image";
 import { ReactElement } from "react";
 
