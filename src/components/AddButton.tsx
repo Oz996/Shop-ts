@@ -7,7 +7,7 @@ import { ProductProps } from "@/types/product";
 
 const AddButton: React.FC<ProductProps> = ({ product }) => {
   const { cart, dispatch } = useCart();
-  console.log(cart);
+  // console.log(cart.cart);
   return (
     <Button
       className="flex gap-1 bg-slate-600 w-full"

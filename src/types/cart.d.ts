@@ -9,5 +9,5 @@ type CartAction =
   | { type: "increment"; payload: Product }
   | { type: "decrement"; payload: Product }
   | { type: "remove_product"; payload: Product }
-  | { type: "empty_cart"; payload?: null }
+  | { type: "empty_cart"; }
   | { type: "set_cart"; payload: Product[] };

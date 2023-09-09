@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import CartIcon from "./CartIcon";
+import { FaPlus } from "react-icons/fa";
 
 const Header = () => {
   return (
@@ -11,6 +12,11 @@ const Header = () => {
         </Link>
         <nav>
           <ul className="flex gap-8 items-center">
+            <li>
+              <Link href="/add">
+                <FaPlus size={15} />
+              </Link>
+            </li>
             <li>
               <Link href="/">Home</Link>
             </li>

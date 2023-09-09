@@ -18,7 +18,6 @@ import { Product } from "@/types/product";
 
 const CartIcon = () => {
   const { cart, dispatch } = useCart();
-  console.log(cart);
 
   return (
     <>

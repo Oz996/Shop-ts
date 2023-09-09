@@ -1,5 +1,4 @@
 import { CartContext } from "@/context/CartContext";
-import { Cart } from "@/types/cart";
 import { useContext } from "react";
 
 export function useCart() {

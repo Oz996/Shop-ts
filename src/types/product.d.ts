@@ -1,7 +1,7 @@
 export type Category = "men's clothing" | "womens" | "jewelry" | "electronics";
 
 export interface Product {
-  id: number;
+  id: number | string;
   title: string;
   price: string;
   category: Category;
@@ -15,5 +15,11 @@ export interface Product {
 }
 
 export interface ProductProps {
-  product: Product;
+  product?: Product;
+  data?: Product[];
+}
+
+export interface Categories {
+  value: string;
+  label: string;
 }
