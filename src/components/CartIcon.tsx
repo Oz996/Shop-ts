@@ -14,10 +14,11 @@ import {
 } from "./ui/sheet";
 import CartCard from "./CartCard";
 import { Button } from "./ui/button";
-import { Product } from "@/types/product";
+import { CartItem } from "@/types/cart";
 
 const CartIcon = () => {
-  const { cart, dispatch } = useCart();
+  const { state: cart, dispatch } = useCart();
+  console.log(cart.cart);
 
   return (
     <>
@@ -38,7 +39,7 @@ const CartIcon = () => {
                 <p className="text-xl font-semibold">Cart is empty</p>
               </div>
             ) : (
-              cart.cart.map((product: Product) => (
+              cart.cart.map((product: CartItem) => (
                 <CartCard key={product.id} product={product} />
               ))
             )}

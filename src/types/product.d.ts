@@ -1,4 +1,4 @@
-export type Category = "men's clothing" | "womens" | "jewelry" | "electronics";
+export type Category = "mens" | "womens" | "jewelery" | "electronics";
 
 export interface Product {
   id: number | string;
@@ -11,12 +11,14 @@ export interface Product {
     count: number;
     rate: number;
   };
-  quantity: number;
 }
 
 export interface ProductProps {
-  product?: Product;
-  data?: Product[];
+  product: Product;
+}
+
+export interface DataProps {
+  data: Product[];
 }
 
 export interface Categories {

@@ -1,7 +1,11 @@
 import { Product } from "./product";
 
 export interface Cart {
-  cart: Product[];
+  cart: CartItem[];
+}
+
+export interface CartItem extends Product {
+  quantity: number;
 }
 
 type CartAction =
@@ -9,5 +13,5 @@ type CartAction =
   | { type: "increment"; payload: Product }
   | { type: "decrement"; payload: Product }
   | { type: "remove_product"; payload: Product }
-  | { type: "empty_cart"; }
+  | { type: "empty_cart" }
   | { type: "set_cart"; payload: Product[] };

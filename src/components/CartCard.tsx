@@ -12,9 +12,9 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import { useCart } from "@/hooks/useCart";
-import { ProductProps } from "@/types/product";
+import { CartItemProps } from "@/types/cart";
 
-const CartCard: React.FC<ProductProps> = ({ product }) => {
+const CartCard: React.FC<CartItemProps> = ({ product }) => {
   const { dispatch } = useCart();
   return (
     <Card className="border-t-0 border-x-0">

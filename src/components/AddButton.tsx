@@ -6,7 +6,7 @@ import { useCart } from "@/hooks/useCart";
 import { ProductProps } from "@/types/product";
 
 const AddButton: React.FC<ProductProps> = ({ product }) => {
-  const { cart, dispatch } = useCart();
+  const { dispatch } = useCart();
   // console.log(cart.cart);
   return (
     <Button

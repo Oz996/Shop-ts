@@ -1,7 +1,6 @@
 "use client";
 
 import { Cart, CartAction } from "@/types/cart";
-import { Product } from "@/types/product";
 import { createContext, useEffect, useReducer } from "react";
 
 const initialState: Cart = {
@@ -93,7 +92,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("cart", JSON.stringify(cart.cart));
   }, [cart]);
   return (
-    <CartContext.Provider value={{ cart, dispatch }}>
+    <CartContext.Provider value={{ state: cart, dispatch }}>
       {children}
     </CartContext.Provider>
   );

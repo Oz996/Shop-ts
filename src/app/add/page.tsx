@@ -1,30 +1,37 @@
 "use client";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import ProductCard from "@/components/ProductCard";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Product } from "@/types/product";
+import { CartItem } from "@/types/cart";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const initialState: Product = {
+  const initialState: CartItem = {
     id: crypto.randomUUID(),
     title: "",
     price: "",
     category: "mens" || "womens" || "jewelery" || "electronics",
     description: "",
-    image: "string",
+    image: "",
     rating: {
       count: 0,
       rate: 0,
     },
+    quantity: 0,
   };
+
   const [formData, setFormData] = useState(initialState);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
+  const [newProducts, setNewProducts] = useState<Product[]>([]);
+  console.log(newProducts);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFormData((data) => {
       return {
@@ -34,12 +41,27 @@ export default function Page() {
     });
   };
 
-  const handleNewProduct = (e: React.FormEvent) => {
+  const handleNewProduct = async (
+    e: React.FormEvent
+  ): Promise<Product | undefined> => {
     e.preventDefault();
     const { title, description, price, image, category } = formData;
     if (!title || !description || !price || !image || !category) {
       setError("Fill out all the fields");
       return;
+    }
+    try {
+      const res = await fetch("https://fakestoreapi.com/products", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(res);
+      if (res.ok) {
+        setNewProducts((prevProducts) => [...prevProducts, formData]);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -59,13 +81,23 @@ export default function Page() {
             <Label className="text-md" htmlFor="title">
               Title
             </Label>
-            <Input name="title" id="title" />
+            <Input
+              name="title"
+              id="title"
+              onChange={handleChange}
+              value={formData.title}
+            />
           </div>
           <div className="w-[47%]">
             <Label className="text-md" htmlFor="price">
               Price
             </Label>
-            <Input name="price" id="price" />
+            <Input
+              name="price"
+              id="price"
+              onChange={handleChange}
+              value={formData.price}
+            />
           </div>
         </div>
         <div className="flex justify-between">
@@ -73,13 +105,29 @@ export default function Page() {
             <Label className="text-md" htmlFor="image">
               ImageURL
             </Label>
-            <Input name="image" id="image" />
+            <Input
+              name="image"
+              id="image"
+              onChange={handleChange}
+              value={formData.image}
+            />
           </div>
-          <div className="w-[47%]">
+          <div className="w-[47%] flex flex-col">
             <Label className="text-md" htmlFor="category">
               Category
             </Label>
-            <Input name="category" id="category" />
+            <select
+              className="p-[.6rem]"
+              name="category"
+              id="category"
+              onChange={handleChange}
+              value={formData.category}
+            >
+              <option value="mens">Mens Clothing</option>
+              <option value="womens">Womens Clothing</option>
+              <option value="jewelery">Jewelery</option>
+              <option value="electronics">Electronics</option>
+            </select>
           </div>
         </div>
         <div>
@@ -91,6 +139,8 @@ export default function Page() {
             id="description"
             rows={10}
             className="resize-none"
+            onChange={handleChange}
+            value={formData.description}
           />
         </div>
         {error && (
@@ -100,6 +150,12 @@ export default function Page() {
         )}
         <Button className="w-full bg-slate-600">Add</Button>
       </form>
+
+      <div className="max-w-[40rem] mx-auto text-center flex flex-col gap-5">
+        {newProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </section>
   );
 }
