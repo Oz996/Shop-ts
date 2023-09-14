@@ -8,7 +8,6 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "./ui/dialog";
-import ProductCard from "@/components/ProductCard";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,9 +16,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
 import { CartItem } from "@/types/cart";
 import { doc, setDoc } from "firebase/firestore";
+import { Product } from "@/types/product";
 
 const AddProductIcon = () => {
-  const initialState: CartItem = {
+  const initialState: Product = {
     id: crypto.randomUUID(),
     title: "",
     price: "",
@@ -30,14 +30,11 @@ const AddProductIcon = () => {
       count: 0,
       rate: 0,
     },
-    quantity: 0,
   };
 
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
-  const [newProducts, setNewProducts] = useState<CartItem[]>([]);
-  console.log(newProducts);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -54,7 +51,7 @@ const AddProductIcon = () => {
 
   const handleNewProduct = async (
     e: React.FormEvent
-  ): Promise<CartItem | undefined> => {
+  ): Promise<Product | undefined> => {
     e.preventDefault();
     const { title, description, price, image, category } = formData;
     if (!title || !description || !price || !image || !category) {
@@ -165,12 +162,6 @@ const AddProductIcon = () => {
               )}
               <Button className="w-full bg-slate-600">Add</Button>
             </form>
-
-            <div className="max-w-[40rem] mx-auto text-center flex flex-col gap-5">
-              {newProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

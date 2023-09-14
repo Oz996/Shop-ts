@@ -1,12 +1,5 @@
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
 import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import AddButton from "./AddButton";

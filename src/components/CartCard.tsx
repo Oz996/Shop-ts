@@ -1,13 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { BiSolidTrashAlt } from "react-icons/bi";
