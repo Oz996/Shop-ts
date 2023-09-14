@@ -1,13 +1,9 @@
 "use client";
-
 import { useCart } from "@/hooks/useCart";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -18,8 +14,6 @@ import { CartItem } from "@/types/cart";
 
 const CartIcon = () => {
   const { state: cart, dispatch } = useCart();
-  console.log(cart.cart);
-
   return (
     <>
       <Sheet>
@@ -56,7 +50,11 @@ const CartIcon = () => {
         </SheetContent>
       </Sheet>
       {cart.cart.length > 0 && (
-        <div className="absolute right-[17.5rem] top-3 text-sm bg-black h-5 w-5 rounded-full flex justify-center items-center">
+        <div
+          className={`relative right-[2.8rem] -top-2 text-sm bg-black h-5 w-5 rounded-full flex justify-center items-center ${
+            cart.cart.length > 0 && "-mr-[3.3rem]"
+          }`}
+        >
           <p>{cart.cart.length}</p>
         </div>
       )}

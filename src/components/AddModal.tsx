@@ -1,11 +1,14 @@
 "use client";
+import { Dialog } from "./ui/dialog";
 import ProductCard from "@/components/ProductCard";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/firebase";
 import { CartItem } from "@/types/cart";
+import { doc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -25,7 +28,7 @@ export default function Page() {
 
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState<string>("");
-  const [newProducts, setNewProducts] = useState<Product[]>([]);
+  const [newProducts, setNewProducts] = useState<CartItem[]>([]);
   console.log(newProducts);
 
   const handleChange = (
@@ -43,7 +46,7 @@ export default function Page() {
 
   const handleNewProduct = async (
     e: React.FormEvent
-  ): Promise<Product | undefined> => {
+  ): Promise<CartItem | undefined> => {
     e.preventDefault();
     const { title, description, price, image, category } = formData;
     if (!title || !description || !price || !image || !category) {
@@ -51,17 +54,11 @@ export default function Page() {
       return;
     }
     try {
-      const res = await fetch("https://fakestoreapi.com/products", {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      console.log(res);
-      if (res.ok) {
-        setNewProducts((prevProducts) => [...prevProducts, formData]);
-      }
-    } catch (error) {
-      console.error(error);
+      const id = crypto.randomUUID();
+      const newProduct = formData;
+      await setDoc(doc(db, "Products", id), newProduct);
+    } catch {
+      setError("Failed to create new product");
     }
   };
 
