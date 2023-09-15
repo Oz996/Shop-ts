@@ -21,7 +21,3 @@ export interface DataProps {
   data: Product[];
 }
 
-export interface Categories {
-  value: string;
-  label: string;
-}
